@@ -1,5 +1,7 @@
 package eu.siacs.conversations.entities;
 
+import android.util.Log;
+
 import java.lang.Comparable;
 import java.util.Locale;
 
@@ -26,30 +28,32 @@ public class Presence implements Comparable {
 	protected ServiceDiscoveryResult disco;
 	protected final String ver;
 	protected final String hash;
+	protected final String statusMessage;
 
-	private Presence(Status status, String ver, String hash) {
+	private Presence(Status status, String ver, String hash, String statusMessage) {
 		this.status = status;
 		this.ver = ver;
 		this.hash = hash;
+		this.statusMessage = statusMessage;
 	}
 
-	public static Presence parse(String show, Element caps) {
+	public static Presence parse(String show, Element caps, String statusMessage) {
 		final String hash = caps == null ? null : caps.getAttribute("hash");
 		final String ver = caps == null ? null : caps.getAttribute("ver");
 		if (show == null) {
-			return new Presence(Status.ONLINE, ver, hash);
+			return new Presence(Status.ONLINE, ver, hash, statusMessage);
 		} else {
 			switch (show.toLowerCase(Locale.US)) {
 				case "away":
-					return new Presence(Status.AWAY, ver, hash);
+					return new Presence(Status.AWAY, ver, hash, statusMessage);
 				case "xa":
-					return new Presence(Status.XA, ver, hash);
+					return new Presence(Status.XA, ver, hash, statusMessage);
 				case "dnd":
-					return new Presence(Status.DND, ver, hash);
+					return new Presence(Status.DND, ver, hash, statusMessage);
 				case "chat":
-					return new Presence(Status.CHAT, ver, hash);
+					return new Presence(Status.CHAT, ver, hash, statusMessage);
 				default:
-					return new Presence(Status.ONLINE, ver, hash);
+					return new Presence(Status.ONLINE, ver, hash, statusMessage);
 			}
 		}
 	}
@@ -72,6 +76,10 @@ public class Presence implements Comparable {
 
 	public String getHash() {
 		return this.hash;
+	}
+
+	public String getStatusMessage(){
+		return this.statusMessage;
 	}
 
 	public void setServiceDiscoveryResult(ServiceDiscoveryResult disco) {

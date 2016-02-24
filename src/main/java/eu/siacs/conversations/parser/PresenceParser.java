@@ -196,7 +196,8 @@ public class PresenceParser extends AbstractParser implements
 
 			final String show = packet.findChildContent("show");
 			final Element caps = packet.findChild("c", "http://jabber.org/protocol/caps");
-			final Presence presence = Presence.parse(show, caps);
+			final String statusMessage = packet.findChildContent("status");
+			final Presence presence = Presence.parse(show, caps, statusMessage);
 			contact.updatePresence(resource, presence);
 			if (presence.hasCaps() && Config.REQUEST_DISCO) {
 				mXmppConnectionService.fetchCaps(account, from, presence);

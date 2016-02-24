@@ -233,6 +233,14 @@ public class Contact implements ListItem, Blockable {
 		return this.presences;
 	}
 
+	public String getStatusMessage() {
+		if (this.presences.getMostAvailablePresence()==null) {
+			return null;
+		} else {
+			return this.presences.getMostAvailablePresence().getStatusMessage();
+		}
+	}
+
 	public void updatePresence(final String resource, final Presence presence) {
 		this.presences.updatePresence(resource, presence);
 	}

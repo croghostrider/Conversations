@@ -61,6 +61,7 @@ public class ListItemAdapter extends ArrayAdapter<ListItem> {
 		TextView tvJid = (TextView) view.findViewById(R.id.contact_jid);
 		ImageView picture = (ImageView) view.findViewById(R.id.contact_photo);
 		LinearLayout tagLayout = (LinearLayout) view.findViewById(R.id.tags);
+		TextView tvStatusMessage = (TextView) view.findViewById(R.id.status_message);
 
 		List<ListItem.Tag> tags = item.getTags();
 		if (tags.size() == 0 || !this.showDynamicTags) {
@@ -84,6 +85,13 @@ public class ListItemAdapter extends ArrayAdapter<ListItem> {
 			tvJid.setVisibility(View.GONE);
 		}
 		tvName.setText(item.getDisplayName());
+		final String statusMessage=item.getStatusMessage();
+		if (statusMessage != null) {
+			tvStatusMessage.setText(statusMessage);
+			tvStatusMessage.setVisibility(View.VISIBLE);
+		} else {
+			tvStatusMessage.setVisibility(View.GONE);
+		}
 		loadAvatar(item,picture);
 		return view;
 	}
